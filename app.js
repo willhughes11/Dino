@@ -1,6 +1,6 @@
 document.body.onload = dinos;
 
-// Create Dino Constructor
+  // Create Dino Constructor
   function Dino({species, weight, height, diet, where, when, fact}) {
       this.species = species;
       this.weight= weight;
@@ -11,13 +11,11 @@ document.body.onload = dinos;
           `${this.species} lived in ${where}`,
           `${this.species} lived during the ${when}`,         
         ]
-
   }
 
-// Create Dino Objects
-let dinoArr = [];
-
-function dinos(){
+  // Create Dino Objects
+  let dinoArr = [];
+  function dinos(){
    const myJson = {
     "Dinos": [
         {
@@ -93,13 +91,12 @@ function dinos(){
             "fact": "All birds are living dinosaurs."
         }
     ]
-}
+  }
    dinoArr = myJson.Dinos.map(dino => new Dino(dino));     
  }
 
-// Create Human Object
-
-function human(){
+  // Create Human Object
+  function human(){
     return (function(){
         let humanObject = {};
         humanObject.diet = document.getElementById('diet').value;
@@ -108,35 +105,34 @@ function human(){
         humanObject.height = 12* parseInt(humanObject.feet) + parseInt(humanObject.inches);
         return humanObject;
 
-  })()
-}
+    })()
+  }
 
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches.
-Dino.prototype.compareHeight = function ({height}) {
-    this.facts.push( `${this.species} is ${
-      (this.height / height).toPrecision(2)
-    } times your height.`)
+  Dino.prototype.compareHeight = function ({height}) {
+    this.facts.push( `${this.species} is ${(this.height / height).toPrecision(2)} times your height.`)
   };
 
-// Create Dino Compare Method 2
-// NOTE: Weight in JSON file is in lbs, height in inches.
-Dino.prototype.compareWeight = function ({weight}) {
-    this.facts.push(`${this.species} is ${
-      (this.weight / weight).toPrecision(2)
-    } times your weight.`)
+  // Create Dino Compare Method 2
+  // NOTE: Weight in JSON file is in lbs, height in inches.
+  Dino.prototype.compareWeight = function ({weight}) {
+    this.facts.push(`${this.species} is ${(this.weight / weight).toPrecision(2)} times your weight.`)
   };
 
-// Create Dino Compare Method 3
-// NOTE: Weight in JSON file is in lbs, height in inches.
-Dino.prototype.compareDiet = function ({diet}) {
-   this.facts.push(`The ${this.species} is a ${this.diet} and you are a ${diet}`);
+  // Create Dino Compare Method 3
+  // NOTE: Weight in JSON file is in lbs, height in inches.
+  Dino.prototype.compareDiet = function ({diet}) {
+    if(this.diet == diet){
+      this.facts.push(`The ${this.species} and you are both ${diet}s`);
+    } else {
+      this.facts.push(`The ${this.species} is a ${this.diet} and you are a ${diet}`);
+    }
   };
 
 
-// Add tiles to DOM
-  
-function addTilesToDOM({name}) {
+  // Add tiles to DOM
+  function addTilesToDOM({name}) {
     const grid = document.getElementById('grid');
     dinoArr.map(dino => {
       const tile = document.createElement('div');
@@ -176,27 +172,25 @@ function addTilesToDOM({name}) {
     });
   }
   
-// Remove form from screen
- 
-function removeFormFromScreen() {
+  // Remove form from screen
+  function removeFormFromScreen() {
    const form = document.getElementById('dino-compare');
    form.innerHTML = '';
-}
+  }
 
-// On button click, prepare and display infographic
+  // On button click, prepare and display infographic
+  const button = document.getElementById('btn');
+  button.addEventListener('click', function () {
+    const user = human();
+    dinoArr.splice(4,0,user);
  
-const button = document.getElementById('btn');
-button.addEventListener('click', function () {
-  const user = human();
-  dinoArr.splice(4,0,user);
- 
-  dinoArr.map(dino => {
-    if (dino.species) {
-      dino.compareHeight(user);
-      dino.compareWeight(user);
-      dino.compareDiet(user);
-    }
+    dinoArr.map(dino => {
+      if (dino.species) {
+        dino.compareHeight(user);
+        dino.compareWeight(user);
+        dino.compareDiet(user);
+      }
+    });
+    addTilesToDOM(user);
+    removeFormFromScreen();
   });
-  addTilesToDOM(user);
-  removeFormFromScreen();
-});
