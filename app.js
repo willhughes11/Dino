@@ -115,7 +115,7 @@ function human(){
 // NOTE: Weight in JSON file is in lbs, height in inches.
 Dino.prototype.compareHeight = function ({height}) {
     this.facts.push( `${this.species} is ${
-      (this.height / height).toPrecision(0)
+      (this.height / height).toPrecision(2)
     } times your height.`)
   };
 
@@ -123,7 +123,7 @@ Dino.prototype.compareHeight = function ({height}) {
 // NOTE: Weight in JSON file is in lbs, height in inches.
 Dino.prototype.compareWeight = function ({weight}) {
     this.facts.push(`${this.species} is ${
-      (this.weight / weight).toPrecision(0)
+      (this.weight / weight).toPrecision(2)
     } times your weight.`)
   };
 
@@ -188,7 +188,7 @@ function removeFormFromScreen() {
 const button = document.getElementById('btn');
 button.addEventListener('click', function () {
   const user = human();
-  dinoArr.splice(4,0,person);
+  dinoArr.splice(4,0,user);
  
   dinoArr.map(dino => {
     if (dino.species) {
